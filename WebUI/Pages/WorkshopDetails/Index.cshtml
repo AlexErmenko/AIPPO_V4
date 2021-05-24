@@ -1,0 +1,69 @@
+﻿@page
+@model WebUI.Pages.WorkshopDetails.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var allowWorkshop = (bool)ViewData["Workshop"];
+    var allowDetails = (bool)ViewData["Details"];
+}
+
+<h1>Index</h1>
+@if (@allowWorkshop && @allowDetails)
+{
+    
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+}
+    
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkshopDetail[0].DayForCreate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkshopDetail[0].PriceOperation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkshopDetail[0].Detail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkshopDetail[0].WorkshopNumberNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.WorkshopDetail) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayForCreate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PriceOperation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Detail.MarkDetail)
+            </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkshopNumberNavigation.DirectorName)
+        </td>
+        
+                @if (@allowWorkshop && @allowDetails)
+                {
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new { operationNumber=item.OperationNumber,detailId = item.DetailId }) |
+                    @Html.ActionLink("Details", "Details", new { operationNumber=item.OperationNumber,detailId = item.DetailId }) |
+                    @Html.ActionLink("Delete", "Delete", new { operationNumber=item.OperationNumber,detailId = item.DetailId })
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+        </tr>
+}
+    </tbody>
+</table>
